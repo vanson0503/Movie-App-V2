@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/ic_home_font"
+        android:enabled="true"
+        android:title="@string/home"/>
+    <item
+        android:id="@+id/discover"
+        android:icon="@drawable/ic_play_font"
+        android:enabled="true"
+        android:title="@string/discovery"/>
+    <item
+        android:id="@+id/account"
+        android:icon="@drawable/ic_account_font"
+        android:enabled="true"
+        android:title="@string/profile" />
+</menu>
