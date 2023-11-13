@@ -220,28 +220,84 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginHorizontal="20dp"
                 />
+
+            <LinearLayout
+                android:id="@+id/l3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/txtOverView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:id="@+id/txtRecommendationsTile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Recommendations"
+                    android:textSize="22sp"
+                    android:textColor="@color/white"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    />
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/noRecommendMovies"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/white"
+                    android:text="We don't have enough data to suggest any movies"
+                    android:textSize="18sp"
+                    android:layout_width="match_parent"
+                    android:layout_marginHorizontal="20dp"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcvRecommendationsMovie"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:orientation="horizontal"
+                    tools:listitem="@layout/recommendations_movie_item"
+                    android:paddingBottom="20dp"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
             <TextView
-                android:id="@+id/txtRecommendationsTile"
+                android:id="@+id/txtReviewTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Recommendations"
-                android:textSize="22sp"
+                android:text="Review"
+                android:textSize="20sp"
                 android:textColor="@color/white"
-                app:layout_constraintTop_toBottomOf="@id/txtOverView"
+                app:layout_constraintTop_toBottomOf="@id/l3"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 />
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcvRecommendationsMovie"
-                android:layout_marginTop="10dp"
+            <TextView
+                android:id="@+id/noReview"
+                android:visibility="gone"
                 android:layout_width="match_parent"
-                app:layout_constraintTop_toBottomOf="@id/txtRecommendationsTile"
+                android:layout_height="match_parent"
+                android:text="We don't have any reviews"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                app:layout_constraintTop_toBottomOf="@id/txtReviewTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                android:paddingHorizontal="20dp"
+                />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcvReview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/txtReviewTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingHorizontal="20dp"
+                tools:listitem="@layout/review_item"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:orientation="horizontal"
-                tools:listitem="@layout/recommendations_movie_item"
-                android:paddingBottom="20dp"
-                android:layout_height="wrap_content"/>
+                android:orientation="vertical"
+                />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

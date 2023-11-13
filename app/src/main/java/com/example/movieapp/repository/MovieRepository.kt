@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.movieapp.model.genre.Genres
 import com.example.movieapp.model.movieDetail.Movie
 import com.example.movieapp.model.moviesList.Movies
+import com.example.movieapp.model.reviewMovie.Reviews
 import com.example.movieapp.model.trailerMovie.TrailerList
 import com.example.movieapp.network.MovieServices
 
@@ -78,5 +79,14 @@ class MovieRepository {
             throw e
         }
     }
+
+    suspend fun getReviewsByMovieId(id:Int):Reviews{
+        return try{
+            MovieServices.api.getReviewsByMovieId(id)
+        }catch(e:Exception){
+            throw e
+        }
+    }
+
 
 }

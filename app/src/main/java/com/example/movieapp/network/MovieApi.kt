@@ -3,6 +3,7 @@ package com.example.movieapp.network
 import com.example.movieapp.model.genre.Genres
 import com.example.movieapp.model.movieDetail.Movie
 import com.example.movieapp.model.moviesList.Movies
+import com.example.movieapp.model.reviewMovie.Reviews
 import com.example.movieapp.model.trailerMovie.TrailerList
 import com.example.movieapp.model.trendingTv.TrendingTvs
 import com.example.movieapp.utils.Constrain.API_KEY
@@ -73,4 +74,10 @@ interface MovieApi {
         @Path("id") id:Int,
         @Query("api_key") apiKey: String = API_KEY
     ):com.example.movieapp.model.recomendMovies.Movies
+
+    @GET("movie/{id}/reviews")
+    suspend fun getReviewsByMovieId(
+        @Path("id") id:Int,
+        @Query("api_key") apiKey: String = API_KEY
+    ):Reviews
 }

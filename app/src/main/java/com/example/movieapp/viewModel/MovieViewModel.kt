@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.movieapp.model.genre.Genres
 import com.example.movieapp.model.movieDetail.Movie
 import com.example.movieapp.model.moviesList.Movies
+import com.example.movieapp.model.reviewMovie.Reviews
 import com.example.movieapp.model.trailerMovie.TrailerList
 import com.example.movieapp.repository.MovieRepository
 import kotlinx.coroutines.Dispatchers
@@ -95,6 +96,20 @@ class MovieViewModel(
             try {
                 val trailerList = movieRepository.getListTrailerMVVM(id)
                 _getListTrailerMVVM.value = trailerList
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private val _getReviewsByMovieIdMVVM = MutableLiveData<Reviews>()
+    val getReviewsByMovieIdMVVM:LiveData<Reviews>
+        get() = _getReviewsByMovieIdMVVM
+    fun getReviewsByMovieId(id:Int){
+        viewModelScope.launch {
+            try {
+                val reviews = movieRepository.getReviewsByMovieId(id)
+                _getReviewsByMovieIdMVVM.value = reviews
             } catch (e: Exception) {
                 e.printStackTrace()
             }

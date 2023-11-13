@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide
 import com.example.movieapp.R
 import com.example.movieapp.adapter.GenreOfMovieAdapter
 import com.example.movieapp.adapter.RecommendAdapter
+import com.example.movieapp.adapter.ReviewAdapter
 import com.example.movieapp.databinding.ActivityMovieDetailBinding
 import com.example.movieapp.model.movieDetail.Movie
 import com.example.movieapp.model.recomendMovies.Movies
@@ -50,6 +51,21 @@ class MovieDetailActivity : AppCompatActivity() {
                 showVideo(movie.id)
             }
         }
+
+        movieViewModel.getReviewsByMovieId(id)
+        movieViewModel.getReviewsByMovieIdMVVM.observe(this){
+            if(it.results.isEmpty()){
+                binding.noReview.visibility = View.VISIBLE
+                binding.rcvReview.visibility = View.GONE
+            }else{
+                binding.noReview.visibility = View.GONE
+                binding.rcvReview.visibility = View.VISIBLE
+                binding.rcvReview.adapter = ReviewAdapter(it)
+            }
+        }
+
+
+
     }
     private fun showVideo(id: Int) {
         movieViewModel.getListTrailer(id)
@@ -97,10 +113,18 @@ class MovieDetailActivity : AppCompatActivity() {
 
         movieViewModel.getRecommendMovieById(movie.id)
         movieViewModel.getRecommendMovieByIdMVVM.observe(this){movies->
-            binding.rcvRecommendationsMovie.adapter = RecommendAdapter(movies){
-                val intent = Intent(this@MovieDetailActivity,MovieDetailActivity::class.java)
-                    .putExtra("id",it)
-                startActivity(intent)
+            if(movies.results.isEmpty()){
+                binding.rcvRecommendationsMovie.visibility = View.GONE
+                binding.noRecommendMovies.visibility = View.VISIBLE
+            }
+            else{
+                binding.rcvRecommendationsMovie.visibility = View.VISIBLE
+                binding.noRecommendMovies.visibility = View.GONE
+                binding.rcvRecommendationsMovie.adapter = RecommendAdapter(movies){
+                    val intent = Intent(this@MovieDetailActivity,MovieDetailActivity::class.java)
+                        .putExtra("id",it)
+                    startActivity(intent)
+                }
             }
         }
     }
