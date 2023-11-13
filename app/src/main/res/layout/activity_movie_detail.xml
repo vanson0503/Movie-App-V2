@@ -240,6 +240,7 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:orientation="horizontal"
                 tools:listitem="@layout/recommendations_movie_item"
+                android:paddingBottom="20dp"
                 android:layout_height="wrap_content"/>
 
 

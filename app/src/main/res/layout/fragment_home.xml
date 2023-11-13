@@ -188,27 +188,6 @@
             app:layout_constraintTop_toBottomOf="@id/txtTopRateMovies"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
-        <TextView
-            android:id="@+id/txtTrendingTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Trending TV"
-            android:textColor="@color/white"
-            android:textSize="28sp"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            app:layout_constraintTop_toBottomOf="@id/viewPageTopRateMovies"
-            />
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPageTrendingTv"
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:layout_marginTop="20dp"
-            android:paddingHorizontal="60dp"
-            app:layout_constraintTop_toBottomOf="@id/txtTrendingTv"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

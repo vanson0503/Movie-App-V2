@@ -12,6 +12,7 @@ import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.movieapp.R
 import com.example.movieapp.adapter.GenreOfMovieAdapter
@@ -21,7 +22,10 @@ import com.example.movieapp.model.movieDetail.Movie
 import com.example.movieapp.model.recomendMovies.Movies
 import com.example.movieapp.model.trailerMovie.TrailerList
 import com.example.movieapp.network.MovieServices
+import com.example.movieapp.repository.MovieRepository
 import com.example.movieapp.utils.Constrain.BASE_URL_IMAGE
+import com.example.movieapp.viewModel.MovieViewModel
+import com.example.movieapp.viewModel.MovieViewModelFactory
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
@@ -31,57 +35,37 @@ import retrofit2.Response
 
 class MovieDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMovieDetailBinding
+    private lateinit var movieViewModel: MovieViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMovieDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val id = intent.getIntExtra("id",0)
         binding.btnBack.setOnClickListener { finish() }
-
-
-
-        MovieServices.api.getDetailMovieById(id).enqueue(object : Callback<Movie>{
-            override fun onResponse(call: Call<Movie>, response: Response<Movie>) {
-                if(response.isSuccessful){
-                    loadData(response.body())
-                    binding.playTrailer.setOnClickListener {
-                        showVideo(response.body()!!.id)
-                    }
-                }
+        movieViewModel = ViewModelProvider(this, MovieViewModelFactory(MovieRepository()))[MovieViewModel::class.java]
+        movieViewModel.getDetailMovieById(id)
+        movieViewModel.getDetailMovieByIdMVVM.observe(this){movie->
+            loadData(movie)
+            binding.playTrailer.setOnClickListener {
+                showVideo(movie.id)
             }
-
-            override fun onFailure(call: Call<Movie>, t: Throwable) {
-                Log.e("ERROR", "onFailure: ${t.toString()}", )
-            }
-
-        })
+        }
     }
-
     private fun showVideo(id: Int) {
-        MovieServices.api.getListTrailer(id).enqueue(object : Callback<TrailerList>{
-            override fun onResponse(call: Call<TrailerList>, response: Response<TrailerList>) {
-                if(response.isSuccessful){
-                    val trailers = response.body()
-                    var videoId:String = ""
-                    for (vd in trailers!!.results){
-                        if(vd.site=="Trailer" || vd.official){
-                            videoId = vd.key
-                            break
-                        }
-                    }
-                    //option1(videoId)
-                    option2(videoId)
-
-                }else{
-                    Toast.makeText(this@MovieDetailActivity, "Looix", Toast.LENGTH_SHORT).show()
+        movieViewModel.getListTrailer(id)
+        movieViewModel.getListTrailerMVVM.observe(this){list->
+            var flag=false
+            for (i in list.results){
+                if(i.site=="Trailer"||i.official){
+                    option2(i.key)
+                    flag = true
+                    break
                 }
             }
-
-            override fun onFailure(call: Call<TrailerList>, t: Throwable) {
-                TODO("Not yet implemented")
+            if(!flag){
+                option2(list.results[0].key)
             }
-
-        })
+        }
     }
     fun option1(id:String){
         binding.playTrailer.visibility = View.GONE
@@ -100,8 +84,6 @@ class MovieDetailActivity : AppCompatActivity() {
             }
         })
     }
-
-
     private fun loadData(movie: Movie?) {
         Glide.with(binding.imgImage)
             .load(BASE_URL_IMAGE+movie!!.poster_path)
@@ -112,22 +94,14 @@ class MovieDetailActivity : AppCompatActivity() {
         binding.txtTime.text = "${movie.runtime} minutes"
         binding.txtreleaseDate.text = movie.release_date
         binding.rcvListGenre.adapter = GenreOfMovieAdapter(movie.genres)
-        MovieServices.api.getRecommendMovieById(id=movie.id)
-            .enqueue(object : Callback<Movies>{
-                override fun onResponse(call: Call<Movies>, response: Response<Movies>) {
-                    if(response.isSuccessful){
-                        binding.rcvRecommendationsMovie.adapter = RecommendAdapter(response.body()!!){
-                            val intent = Intent(this@MovieDetailActivity,MovieDetailActivity::class.java)
-                                .putExtra("id",it)
-                            startActivity(intent)
-                        }
-                    }
-                }
 
-                override fun onFailure(call: Call<Movies>, t: Throwable) {
-                    Log.e("ERROR", "onFailure: ${t.toString()}", )
-                }
-
-            })
+        movieViewModel.getRecommendMovieById(movie.id)
+        movieViewModel.getRecommendMovieByIdMVVM.observe(this){movies->
+            binding.rcvRecommendationsMovie.adapter = RecommendAdapter(movies){
+                val intent = Intent(this@MovieDetailActivity,MovieDetailActivity::class.java)
+                    .putExtra("id",it)
+                startActivity(intent)
+            }
+        }
     }
 }

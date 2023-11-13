@@ -15,62 +15,62 @@ import retrofit2.http.Query
 interface MovieApi {
 
     @GET("trending/movie/day")
-    fun getMoviesTrending(
+    suspend fun getMoviesTrendingMVVM(
         @Query("api_key") apiKey: String = API_KEY
-    ): Call<Movies>
+    ): Movies
 
     @GET("movie/popular")
-    fun getMoviesPopular(
+    suspend fun getMoviesPopularMVVM(
         @Query("api_key") apiKey: String = API_KEY
-    ): Call<Movies>
+    ): Movies
 
     @GET("movie/top_rated")
-    fun getMoviesTopRate(
+    suspend fun getMoviesTopRateMVVM(
         @Query("api_key") apiKey: String = API_KEY
-    ): Call<Movies>
+    ): Movies
 
     @GET("movie/upcoming")
-    fun getUpComing(
+    suspend fun getUpComingMVVM(
         @Query("api_key") apiKey: String = API_KEY
-    ): Call<Movies>
+    ): Movies
 
     @GET("search/movie")
-    fun getSearchMovies(
+    suspend fun getSearchMoviesMVVM(
         @Query("query") query:String,
         @Query("api_key") apiKey: String = API_KEY
-    ): Call<Movies>
+    ): Movies
 
     @GET("movie/{id}/videos")
-    fun getListTrailer(
+    suspend fun getListTrailerMVVM(
         @Path("id") id:Int,
         @Query("api_key") apiKey: String = API_KEY
-    ):Call<TrailerList>
-
-    @GET("trending/tv/day")
-    fun getTvsTrending(
-        @Query("api_key") apiKey: String = API_KEY
-    ):Call<TrendingTvs>
+    ):TrailerList
 
     @GET("genre/movie/list")
     fun getGenreMovies(
         @Query("api_key") apiKey: String = API_KEY
     ):Call<Genres>
 
+    @GET("genre/movie/list")
+    suspend fun getGenreMoviesMVVM(
+        @Query("api_key") apiKey: String = API_KEY
+    ):Genres
+
     @GET("discover/movie")
-    fun getMoviesByGenreId(
+    suspend fun getMoviesByGenreIdMVVM(
         @Query("api_key") apiKey: String = API_KEY,
         @Query("with_genres") genreId:Int
-    ):Call<Movies>
+    ):Movies
 
     @GET("movie/{id}")
-    fun getDetailMovieById(
+    suspend fun getDetailMovieByIdMVVM(
         @Path("id") id:Int,
         @Query("api_key") apiKey: String = API_KEY
-    ):Call<Movie>
+    ):Movie
 
     @GET("movie/{id}/recommendations")
-    fun getRecommendMovieById(
+    suspend fun getRecommendMovieByIdMVVM(
         @Path("id") id:Int,
         @Query("api_key") apiKey: String = API_KEY
-    ):Call<com.example.movieapp.model.recomendMovies.Movies>
+    ):com.example.movieapp.model.recomendMovies.Movies
 }
