@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -37,13 +38,13 @@ class MovieDetailActivity : AppCompatActivity() {
         val id = intent.getIntExtra("id",0)
         binding.btnBack.setOnClickListener { finish() }
 
+
+
         MovieServices.api.getDetailMovieById(id).enqueue(object : Callback<Movie>{
             override fun onResponse(call: Call<Movie>, response: Response<Movie>) {
                 if(response.isSuccessful){
                     loadData(response.body())
                     binding.playTrailer.setOnClickListener {
-                        binding.playTrailer.visibility = View.GONE
-                        binding.youTubePlayerView.visibility = View.VISIBLE
                         showVideo(response.body()!!.id)
                     }
                 }
@@ -68,11 +69,9 @@ class MovieDetailActivity : AppCompatActivity() {
                             break
                         }
                     }
-                    binding.youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
-                        override fun onReady(youTubePlayer: YouTubePlayer) {
-                            youTubePlayer.loadVideo(videoId, 0f)
-                        }
-                    })
+                    //option1(videoId)
+                    option2(videoId)
+
                 }else{
                     Toast.makeText(this@MovieDetailActivity, "Looix", Toast.LENGTH_SHORT).show()
                 }
@@ -82,6 +81,23 @@ class MovieDetailActivity : AppCompatActivity() {
                 TODO("Not yet implemented")
             }
 
+        })
+    }
+    fun option1(id:String){
+        binding.playTrailer.visibility = View.GONE
+        binding.webView.visibility = View.VISIBLE
+        val html2 = "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/QLM-0vkckG4?si=KaavQxIjquanM5H8\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>"
+        val html = "<iframe style=\"width: 100%; height: 100%; margin: 0; padding: 0;\" src=\"https://www.youtube.com/embed/$id\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen></iframe>"
+        binding.webView.settings.javaScriptEnabled = true
+        binding.webView.loadData(html, "text/html", "utf-8")
+    }
+    fun option2(id:String){
+        binding.playTrailer.visibility = View.GONE
+        binding.youTubePlayerView.visibility = View.VISIBLE
+        binding.youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+            override fun onReady(youTubePlayer: YouTubePlayer) {
+                youTubePlayer.loadVideo(id, 0f)
+            }
         })
     }
 

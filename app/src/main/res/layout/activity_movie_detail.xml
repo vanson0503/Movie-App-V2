@@ -53,6 +53,22 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="@id/imgImage"
                     />
+                <WebView
+                    android:visibility="gone"
+                    android:id="@+id/webView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_margin="0dp"
+                    android:padding="0dp"
+                    tools:layout_editor_absoluteX="8dp"
+                    tools:layout_editor_absoluteY="8dp"
+                    android:backgroundTint="@color/backgroundColor"
+                    android:background="@color/backgroundColor"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/imgImage"
+                    />
                 <ImageView
                     android:id="@+id/playTrailer"
                     android:layout_width="60dp"
