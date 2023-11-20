@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "163800279559",
+    "firebase_url": "https://movie-app-f9b17-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "movie-app-f9b17",
+    "storage_bucket": "movie-app-f9b17.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:163800279559:android:2c8d5ea65575db7cc598a2",
+        "android_client_info": {
+          "package_name": "com.example.movieapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeXyI-fXQUoNzprxMeS9vidGdcpNzZKSM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

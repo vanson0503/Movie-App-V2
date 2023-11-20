@@ -47,10 +47,6 @@ interface MovieApi {
         @Query("api_key") apiKey: String = API_KEY
     ):TrailerList
 
-    @GET("genre/movie/list")
-    fun getGenreMovies(
-        @Query("api_key") apiKey: String = API_KEY
-    ):Call<Genres>
 
     @GET("genre/movie/list")
     suspend fun getGenreMoviesMVVM(
